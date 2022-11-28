@@ -4,10 +4,12 @@ require 'oauth/request_proxy/typhoeus_request'
 
 # Service to fetch the credentials
 class TwitterService
-  def self.tweet!(message)
-    body = {
-      "text": message
-    }
+  def self.message(feedback)
+    ".@#{feedback.recipient_handle}, '#{feedback.text}' --Anon" # => 250 characters
+  end
+
+  def self.tweet!(feedback)
+    body = { "text": message(feedback) }
 
     @consumer = OAuth::Consumer.new(
       ENV['twitter_consumer_key'],
@@ -33,6 +35,12 @@ class TwitterService
     response = req.run
 
     if response.success?
+      tweet_id = JSON.parse(response.body)['data']['id']
+      twitter_username = ENV['twitter_username'] || 'twitter'
+      tweet_url = "https://twitter.com/#{twitter_username}/status/#{tweet_id}"
+
+      feedback.update(tweet_id:, tweet_url:)
+      # Delete logs
       puts 'Credentials work! Tweet:'
       puts JSON.pretty_generate(JSON.parse(response.body))
     else

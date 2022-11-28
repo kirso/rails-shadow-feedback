@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-class HomeController < ApplicationController
-  def index
+# Routes
+class PagesController < ApplicationController
+  def home
     # This will redirect the request to to views => main
   end
 end
