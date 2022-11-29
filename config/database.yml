@@ -30,7 +30,7 @@ development:
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user running Rails.
   username: kirso
-  password: <%= ENV['cudinova'] %>
+  password: <%= ENV['RAILS_SHADOW_FEEDBACK_DATABASE_PASSWORD'] %>
 
   # The password associated with the postgres role (username).
   #password:
@@ -74,9 +74,6 @@ test:
 # the values provided in this file. Alternatively, you can specify a connection
 # URL environment variable explicitly:
 #
-#   production:
-#     url: <%= ENV["MY_APP_DATABASE_URL"] %>
-#
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
@@ -85,3 +82,4 @@ production:
   database: rails_shadow_feedback_production
   username: rails_shadow_feedback
   password: <%= ENV["RAILS_SHADOW_FEEDBACK_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
